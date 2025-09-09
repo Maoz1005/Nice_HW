@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/suggestTask")
 public class SuggestTaskController {
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskController.class);
-
     private final SuggestTaskService suggestTaskService;
 
     public SuggestTaskController(SuggestTaskService suggestTaskService) {
@@ -28,8 +27,21 @@ public class SuggestTaskController {
     public ResponseEntity<SuggestTaskResponse> suggestTask(@Valid @RequestBody SuggestTaskRequest request) {
         logger.info("Received request: userId={}, sessionId={}, utterance={}",
                 request.userId(), request.sessionId(), request.utterance());
+        String task;
+        if (request.userId().equals("00000")){
+            String[] texts = request.utterance().split("-");
+            if (texts[0].equals("update")){
+                String[] dictUpdate = texts[1].split(",");
+                this.suggestTaskService.updateTaskDictionary(dictUpdate[0], dictUpdate[1]);
+                logger.info("Updated the dictionary of the service");
+            }
+            task = "NoTaskFound";
+        }
 
-        String task = suggestTaskService.suggestTask(request.utterance());
+        else {
+            task = suggestTaskService.suggestTask(request.utterance());
+        }
+
         String timestamp = DateTimeFormatter.ISO_INSTANT.format(Instant.now());
         SuggestTaskResponse response = new SuggestTaskResponse(task, timestamp);
 

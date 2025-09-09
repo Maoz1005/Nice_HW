@@ -14,9 +14,18 @@ public class SuggestTaskService {
 
     public SuggestTaskService() {
         taskDictionary.put("reset password", "ResetPasswordTask");
+        taskDictionary.put("reset my password", "ResetPasswordTask");
         taskDictionary.put("forgot password", "ResetPasswordTask");
+        taskDictionary.put("forgot my password", "ResetPasswordTask");
         taskDictionary.put("check order", "CheckOrderStatusTask");
+        taskDictionary.put("check my order", "CheckOrderStatusTask");
+        taskDictionary.put("check my orders status", "CheckOrderStatusTask");
         taskDictionary.put("track order", "CheckOrderStatusTask");
+        taskDictionary.put("track my order", "CheckOrderStatusTask");
+        taskDictionary.put("track orders", "CheckOrderStatusTask");
+        taskDictionary.put("order status", "CheckOrderStatusTask");
+        taskDictionary.put("cancel order", "CancelOrderTask");
+        taskDictionary.put("cancel my order", "CancelOrderTask");
     }
 
     public void updateTaskDictionary(String key, String task){
