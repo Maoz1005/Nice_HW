@@ -26,6 +26,8 @@ public class SuggestTaskService {
         taskDictionary.put("order status", "CheckOrderStatusTask");
         taskDictionary.put("cancel order", "CancelOrderTask");
         taskDictionary.put("cancel my order", "CancelOrderTask");
+        taskDictionary.put("want to order", "MakeOrderTask");
+        taskDictionary.put("want to place an order", "MakeOrderTask");
     }
 
     public void updateTaskDictionary(String key, String task){

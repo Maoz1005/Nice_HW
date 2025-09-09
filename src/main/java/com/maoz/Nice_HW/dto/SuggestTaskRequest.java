@@ -1,5 +1,6 @@
 package com.maoz.Nice_HW.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import com.maoz.Nice_HW.validation.Iso8601;
 import jakarta.validation.constraints.Pattern;
@@ -7,6 +8,7 @@ import jakarta.validation.constraints.Size;
 
 import static com.maoz.Nice_HW.config.Constants.MAX_UTTERANCE_LENGTH;
 
+@JsonIgnoreProperties(ignoreUnknown = false)
 public record SuggestTaskRequest(
         @NotBlank(message = "{utterance.notBlank}")
         @Size(max = MAX_UTTERANCE_LENGTH, message = "{utterance.size}")
