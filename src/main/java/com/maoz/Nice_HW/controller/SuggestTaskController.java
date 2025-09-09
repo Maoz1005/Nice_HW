@@ -30,7 +30,6 @@ public class SuggestTaskController {
                 request.userId(), request.sessionId(), request.utterance());
 
         String task = suggestTaskService.suggestTask(request.utterance());
-
         String timestamp = DateTimeFormatter.ISO_INSTANT.format(Instant.now());
         SuggestTaskResponse response = new SuggestTaskResponse(task, timestamp);
 
@@ -40,8 +39,7 @@ public class SuggestTaskController {
                 .body(response);
     }
 
-
-    @GetMapping("/")
+    @GetMapping
     public String healthCheck() {
         return "SuggestTask API is running!";
     }
