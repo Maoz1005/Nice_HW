@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/suggestTask")
@@ -29,13 +30,16 @@ public class SuggestTaskController {
                 request.userId(), request.sessionId(), request.utterance());
 
         String task = suggestTaskService.suggestTask(request.utterance());
-        SuggestTaskResponse response = new SuggestTaskResponse(task, Instant.now().toString());
+
+        String timestamp = DateTimeFormatter.ISO_INSTANT.format(Instant.now());
+        SuggestTaskResponse response = new SuggestTaskResponse(task, timestamp);
 
         logger.info("Responding with task={}, timestamp={}", response.task(), response.timestamp());
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);
     }
+
 
     @GetMapping("/")
     public String healthCheck() {
