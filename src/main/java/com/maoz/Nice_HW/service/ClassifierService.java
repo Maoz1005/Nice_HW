@@ -92,8 +92,12 @@ public class ClassifierService {
     }
 
     public String predict(String utterance) {
-        double[] vector = vocab.toVector(utterance);
+        if (utterance == null || utterance.isBlank()) {
+            logger.warn("Received empty utterance");
+            return "NoTaskFound";
+        }
 
+        double[] vector = vocab.toVector(utterance);
         double[] probs = new double[labelToTask.size()];
         int label = model.predict(vector, probs);
 
