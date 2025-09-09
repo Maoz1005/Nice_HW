@@ -1,3 +1,5 @@
+package com.maoz.Nice_HW.controller;
+
 import com.maoz.Nice_HW.dto.SuggestTaskRequest;
 import com.maoz.Nice_HW.dto.SuggestTaskResponse;
 import com.maoz.Nice_HW.service.SuggestTaskService;
