@@ -24,8 +24,8 @@ public class SuggestTaskService {
             logger.warn("Invalid mapping: key='{}', task='{}' – ignoring", key, task);
             return;
         }
-
-        taskDictionary.put(key, task);
+        String lowerKey = key.toLowerCase();
+        taskDictionary.put(lowerKey, task);
         logger.info("Mapping added/updated: '{}' -> '{}'", key, task);
     }
 
@@ -35,19 +35,18 @@ public class SuggestTaskService {
             return "NoTaskFound";
         }
 
-        // המרה ל-lowercase כדי שהבדיקה תהיה case-insensitive
+        // Change to lower case (case-sensitive)
         String lowerUtterance = utterance.toLowerCase();
 
-        // בדיקה מול כל הערכים במילון
+        // Compare against all keys in taskDictionary
         for (Map.Entry<String, String> entry : taskDictionary.entrySet()) {
             if (lowerUtterance.contains(entry.getKey())) {
-                // התאמה נמצאה → לוג בקונסול
+                // There is a match
                 logger.info("Matched utterance '{}' to task '{}'", utterance, entry.getValue());
                 return entry.getValue();
             }
         }
-
-        // אם לא נמצאה התאמה → לוג בקונסול
+        // There is no match
         logger.info("No task found for utterance '{}'", utterance);
         return "NoTaskFound";
     }
