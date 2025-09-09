@@ -2,6 +2,7 @@ package com.maoz.Nice_HW.controller;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequest;
 import com.maoz.Nice_HW.dto.SuggestTaskResponse;
+import com.maoz.Nice_HW.service.ClassifierService;
 import com.maoz.Nice_HW.service.SuggestTaskService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -10,17 +11,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/suggestTask")
 public class SuggestTaskController {
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskController.class);
     private final SuggestTaskService suggestTaskService;
+    private final ClassifierService classifierService;
 
-    public SuggestTaskController(SuggestTaskService suggestTaskService) {
+    public SuggestTaskController(SuggestTaskService suggestTaskService, ClassifierService classifierService) {
         this.suggestTaskService = suggestTaskService;
+        this.classifierService = classifierService;
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -39,10 +43,11 @@ public class SuggestTaskController {
         }
 
         else {
-            task = suggestTaskService.suggestTask(request.utterance());
+            // task = suggestTaskService.suggestTask(request.utterance());
+            task = classifierService.predict((request.utterance()));
         }
 
-        String timestamp = DateTimeFormatter.ISO_INSTANT.format(Instant.now());
+        String timestamp = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         SuggestTaskResponse response = new SuggestTaskResponse(task, timestamp);
 
         logger.info("Responding with task={}, timestamp={}", response.task(), response.timestamp());
