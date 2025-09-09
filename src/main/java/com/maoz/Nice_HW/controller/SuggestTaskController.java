@@ -27,4 +27,9 @@ public class SuggestTaskController {
 
         return ResponseEntity.ok(task);
     }
+
+    @GetMapping("/")
+    public String healthCheck() {
+        return "SuggestTask API is running!";
+    }
 }
