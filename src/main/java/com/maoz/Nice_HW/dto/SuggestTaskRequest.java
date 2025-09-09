@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 import static com.maoz.Nice_HW.config.Constants.MAX_UTTERANCE_LENGTH;
 
-@JsonIgnoreProperties(ignoreUnknown = false)
+
 public record SuggestTaskRequest(
         @NotBlank(message = "{utterance.notBlank}")
         @Size(max = MAX_UTTERANCE_LENGTH, message = "{utterance.size}")
