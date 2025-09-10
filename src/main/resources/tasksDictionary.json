@@ -1,0 +1,54 @@
+{
+  "ResetPasswordTask": [
+    "reset password",
+    "reset my password",
+    "forgot password",
+    "forgot my password",
+    "I forgot my password",
+    "reset my password please",
+    "I want to reset my password",
+    "I want to reset my password please"
+  ],
+  "CheckOrderStatusTask": [
+    "check order",
+    "check my order",
+    "track order",
+    "track my order",
+    "track orders",
+    "order status",
+    "Where is my order?",
+    "track my order please",
+    "check my order please",
+    "check my orders status",
+    "I want to track my order",
+    "I want to check my order",
+    "I want to check my order please",
+    "I want to track my order please",
+    "I want to check my orders status",
+    "I want to check my orders status please"
+  ],
+  "CancelOrderTask": [
+    "cancel order",
+    "can I cancel?",
+    "cancel my order",
+    "cancel my order please",
+    "I want to cancel my order",
+    "I want to cancel my order please",
+    "can I cancel?"
+
+  ],
+  "MakeOrderTask": [
+    "new order",
+    "want to order",
+    "I want to order",
+    "want to place an order",
+    "I want to place an order",
+    "I want to make an order",
+    "I want to order please",
+    "I would like to order please",
+    "I want to place an order please",
+    "I want to make an order please",
+    "can I order?"
+
+  ]
+}
