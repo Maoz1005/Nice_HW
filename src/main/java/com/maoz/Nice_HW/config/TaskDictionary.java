@@ -58,4 +58,13 @@ public class TaskDictionary {
     public Map<String, List<String>> getDictionary() {
         return dictionary;
     }
+
+    /**
+     * Reloads the dictionary from the JSON file at runtime.
+     * Can be called from a controller to refresh the list without restarting the application.
+     */
+    public void reloadDictionary() {
+        logger.info("Reloading dictionary from tasksDictionary.json...");
+        loadDictionary();
+    }
 }
