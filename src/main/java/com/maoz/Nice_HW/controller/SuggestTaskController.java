@@ -2,11 +2,11 @@ package com.maoz.Nice_HW.controller;
 
 import com.maoz.Nice_HW.config.Constants;
 import com.maoz.Nice_HW.config.DevUsers;
-import com.maoz.Nice_HW.config.TaskDictionary;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.dto.SuggestTaskResponseDTO;
 import com.maoz.Nice_HW.service.SuggestTaskBaseService;
 import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
+
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
-import java.util.regex.PatternSyntaxException;
 
 /***
  * REST controller for the SuggestTask API.
