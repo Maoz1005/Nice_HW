@@ -24,7 +24,7 @@ public class SuggestTaskBaseService implements SuggestTaskInterface {
     /**
      * Constructor with dependency injection of the shared task dictionary.
      *
-     * @param taskDictionary
+     * @param taskDictionary a taskDictionary object
      */
     public SuggestTaskBaseService(TaskDictionary taskDictionary) {
         this.taskDictionary = taskDictionary;
@@ -55,5 +55,9 @@ public class SuggestTaskBaseService implements SuggestTaskInterface {
         }
         logger.info("No match for '{}'", utterance);
         return Constants.NO_TASK_FOUND;
+    }
+
+    public void updateDictionary(String[] symAndTask){
+        taskDictionary.updateDictionary(symAndTask[0], symAndTask[1]);
     }
 }
