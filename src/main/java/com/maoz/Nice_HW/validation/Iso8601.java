@@ -8,12 +8,20 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Documented
-@Constraint(validatedBy = Iso8601Validator.class)
-@Target({ FIELD, PARAMETER, ANNOTATION_TYPE, TYPE_USE })
-@Retention(RUNTIME)
+/***
+ * The annotation is suitable for validating timestamps coming from JSON requests in DTOs.
+ * It relies on Iso8601Validator to perform the actual validation, and it can be applied to
+ * fields or method/constructor parameters (except collections).
+ */
+@Documented // Adds to Javadoc
+@Constraint(validatedBy = Iso8601Validator.class) // The annotation is validated by Iso8601Validator
+@Target({ FIELD, PARAMETER }) // Specifies the elements where the annotation can be applied
+@Retention(RUNTIME) // Indicates that the annotation is retained at runtime
 public @interface Iso8601 {
-    String message() default "timestamp must be a valid ISO-8601 instant (e.g. 2025-08-21T12:00:00Z)";
+    // The error message that will be sent
+    String message() default "{timestamp.invalid}";
+
+    // Bean Validation requires these elements even if we don't use them
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
