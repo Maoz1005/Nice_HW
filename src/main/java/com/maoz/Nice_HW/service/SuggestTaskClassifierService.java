@@ -78,7 +78,7 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
         MathEx.setSeed(123); // reproducibility
         model = LogisticRegression.fit(X, y);
 
-        logger.info("Classifier initially trained on {} utterances across {} tasks", X.length, labelToTask.size());
+        logger.info("Classifier trained on {} utterances across {} tasks", X.length, labelToTask.size());
     }
 
     /**
@@ -107,7 +107,7 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
 
         logger.info("Probabilities for utterance '{}':", utterance);
         for (int i = 0; i < probs.length; i++) {
-            logger.info("  Task '{}' -> {:.2f}%", labelToTask.get(i), probs[i] * 100);
+            logger.info("  Task '{}' -> {}%", labelToTask.get(i), String.format("%.2f", probs[i] * 100));
         }
 
         // Step 3: Identify max probability
@@ -125,7 +125,7 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
                 ? Constants.NO_TASK_FOUND
                 : labelToTask.get(maxIdx);
 
-        logger.info("Predicted task: '{}' (max probability {:.2f}%)", predictedTask, maxProb * 100);
+        logger.info("Predicted task: '{}' (max probability {}%)", predictedTask, String.format("%.2f", maxProb * 100));
         return predictedTask;
     }
 }
