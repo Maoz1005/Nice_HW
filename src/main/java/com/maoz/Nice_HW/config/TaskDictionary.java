@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * TaskDictionary is a shared component that loads and provides access
- * to the mapping of tasks → list of synonyms.
+ * to the mapping of tasks to list of synonyms.
  *
  * The dictionary is loaded from an external JSON file (resources/tasksDictionary.json),
  * so that it can be easily updated without changing the code.
@@ -19,7 +19,7 @@ import java.util.*;
 @Component
 public class TaskDictionary {
     private static final Logger logger = LoggerFactory.getLogger(TaskDictionary.class);
-    // Map of TaskName → List of Synonyms
+    // Map of TaskName to List of Synonyms
     private Map<String, List<String>> dictionary = new HashMap<>();
     // Used for parsing JSON into a Java Map
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -34,8 +34,10 @@ public class TaskDictionary {
     /**
      * Loads the dictionary from resources/tasksDictionary.json.
      * If the file is not found or parsing fails, an error is logged.
+     *
+     * @return true if succeeded, false otherwise
      */
-    public boolean loadDictionary() {
+    public void loadDictionary() {
         try (InputStream input = getClass().getResourceAsStream("/tasksDictionary.json")) {
             if (input == null) {
                 throw new IllegalStateException("tasksDictionary.json not found in resources");
@@ -45,11 +47,8 @@ public class TaskDictionary {
                     objectMapper.readValue(input, new TypeReference<Map<String, List<String>>>() {});
             this.dictionary = newDict;
             logger.info("Loaded {} tasks from dictionary", dictionary.size());
-            return true;
-
         } catch (IOException e) {
             logger.error("Failed to load dictionary", e);
-            return false;
         }
     }
 
@@ -66,8 +65,8 @@ public class TaskDictionary {
      * Adds a synonym to a task in the dictionary (but does not duplicate).
      * If the task does not exist, a new entry is created with this synonym.
      *
-     * @param synonym the synonym to add
-     * @param task the task name (dictionary key)
+     * @param synonym - the synonym to add
+     * @param task - the task name (dictionary key)
      */
     public void updateDictionary(String synonym, String task) {
         if (synonym == null || synonym.isBlank() || task == null || task.isBlank()) {

@@ -62,13 +62,4 @@ public class DevUsers {
     public List<String> getUsers() {
         return users;
     }
-
-    /**
-     * Reloads the developer users from the JSON file at runtime.
-     * Can be called from a controller to refresh the list without restarting the application.
-     */
-    public void reloadUsers() {
-        logger.info("Reloading developer users from devUsers.json...");
-        loadUsers();
-    }
 }
