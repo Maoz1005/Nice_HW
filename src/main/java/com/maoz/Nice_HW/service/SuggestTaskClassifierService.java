@@ -2,6 +2,7 @@ package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
 import com.maoz.Nice_HW.config.TaskDictionary;
+import com.maoz.Nice_HW.config.Vocabulary;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskClassifierService.class);
     private LogisticRegression model; // Logistic Regression model (multi-class softmax)
-    private Vocabulary vocab = new Vocabulary(); // Vocabulary used to convert text to vectors
-    private Map<Integer, String> labelToTask = new HashMap<>(); // Mapping of label indices to task names
+    private final Vocabulary vocab = new Vocabulary(); // Vocabulary used to convert text to vectors
+    private final Map<Integer, String> labelToTask = new HashMap<>(); // Mapping of label indices to task names
     private final TaskDictionary taskDictionary; // Central dictionary of task to synonyms, shared across services
 
     public SuggestTaskClassifierService(TaskDictionary taskDictionary) {
@@ -88,7 +89,7 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
      * 3. Identify task with the highest probability.
      * 4. If the probability exceeds the threshold, return task. otherwise, return NoTaskFound.
      *
-     * @param utterance the user input text
+     * @param utterance - the user input text
      * @return predicted task or NoTaskFound
      */
     @Override

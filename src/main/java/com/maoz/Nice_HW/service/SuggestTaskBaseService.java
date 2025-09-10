@@ -33,7 +33,7 @@ public class SuggestTaskBaseService implements SuggestTaskInterface {
     /**
      * Suggest a task given an utterance by checking for matches in the dictionary.
      *
-     * @param utterance The user input (free text)
+     * @param utterance - The user input (free text)
      * @return The task name if a match is found, or "NoTaskFound" otherwise
      */
     @Override
@@ -57,6 +57,12 @@ public class SuggestTaskBaseService implements SuggestTaskInterface {
         return Constants.NO_TASK_FOUND;
     }
 
+    /**
+     * Adds a synonym and TaskName to the taskDictionary using the updateDictionary method
+     * from TaskDictionary class.
+     *
+     * @param symAndTask - a 2-element array containing {synonym, task}, or {null, null} if invalid
+     */
     public void updateDictionary(String[] symAndTask){
         taskDictionary.updateDictionary(symAndTask[0], symAndTask[1]);
     }
