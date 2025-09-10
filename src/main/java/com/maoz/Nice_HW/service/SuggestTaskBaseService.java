@@ -1,64 +1,58 @@
 package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
+import com.maoz.Nice_HW.config.TaskDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * Service implementation of SuggestTaskInterface that uses a dictionary-based approach.
+ * The dictionary is loaded from an external JSON file and contains mappings between a task and its possible synonyms.
+ * When a new utterance arrives, this service attempts to match it against
+ * the synonyms in the dictionary and return the corresponding task.
+ */
 @Service
-public class SuggestTaskService implements SuggestTaskInterface {
-    private static final Logger logger = LoggerFactory.getLogger(SuggestTaskService.class);
-    private final Map<String, String> taskDictionary = new HashMap<>();
+public class SuggestTaskBaseService implements SuggestTaskInterface {
 
-    public SuggestTaskService() {
-        taskDictionary.put("reset password", "ResetPasswordTask");
-        taskDictionary.put("reset my password", "ResetPasswordTask");
-        taskDictionary.put("forgot password", "ResetPasswordTask");
-        taskDictionary.put("forgot my password", "ResetPasswordTask");
-        taskDictionary.put("check order", "CheckOrderStatusTask");
-        taskDictionary.put("check my order", "CheckOrderStatusTask");
-        taskDictionary.put("check my orders status", "CheckOrderStatusTask");
-        taskDictionary.put("track order", "CheckOrderStatusTask");
-        taskDictionary.put("track my order", "CheckOrderStatusTask");
-        taskDictionary.put("track orders", "CheckOrderStatusTask");
-        taskDictionary.put("order status", "CheckOrderStatusTask");
-        taskDictionary.put("cancel order", "CancelOrderTask");
-        taskDictionary.put("cancel my order", "CancelOrderTask");
-        taskDictionary.put("want to order", "MakeOrderTask");
-        taskDictionary.put("want to place an order", "MakeOrderTask");
+    private static final Logger logger = LoggerFactory.getLogger(SuggestTaskBaseService.class);
+    private final TaskDictionary taskDictionary; // Central dictionary of task to synonyms, shared across services
+
+    /**
+     * Constructor with dependency injection of the shared task dictionary.
+     *
+     * @param taskDictionary
+     */
+    public SuggestTaskBaseService(TaskDictionary taskDictionary) {
+        this.taskDictionary = taskDictionary;
     }
 
-    public void updateTaskDictionary(String key, String task){
-        if (key == null || key.isBlank() || task == null || task.isBlank()) {
-            logger.warn("Invalid mapping: key='{}', task='{}' – ignoring", key, task);
-            return;
-        }
-        String lowerKey = key.toLowerCase();
-        taskDictionary.put(lowerKey, task);
-        logger.info("Mapping added/updated: '{}' -> '{}'", key, task);
-    }
-
+    /**
+     * Suggest a task given an utterance by checking for matches in the dictionary.
+     *
+     * @param utterance The user input (free text)
+     * @return The task name if a match is found, or "NoTaskFound" otherwise
+     */
+    @Override
     public String suggestTask(String utterance) {
-        if (utterance == null) {
-            logger.info("Received null utterance, returning NoTaskFound");
+        if (utterance == null || utterance.isBlank()) {
             return Constants.NO_TASK_FOUND;
         }
 
-        // Change to lower case (case-sensitive)
         String lowerUtterance = utterance.toLowerCase();
 
-        // Compare against all keys in taskDictionary
-        for (Map.Entry<String, String> entry : taskDictionary.entrySet()) {
-            if (lowerUtterance.contains(entry.getKey())) {
-                // There is a match
-                logger.info("Matched utterance '{}' to task '{}'", utterance, entry.getValue());
-                return entry.getValue();
+        // Check each task and its synonyms for a match
+        for (Map.Entry<String, List<String>> entry : taskDictionary.getDictionary().entrySet()) {
+            for (String synonym : entry.getValue()) {
+                if (lowerUtterance.contains(synonym.toLowerCase())) {
+                    logger.info("Matched '{}' to task '{}'", utterance, entry.getKey());
+                    return entry.getKey();
+                }
             }
         }
-        // There is no match
-        logger.info("No task found for utterance '{}'", utterance);
+        logger.info("No match for '{}'", utterance);
         return Constants.NO_TASK_FOUND;
     }
 }
