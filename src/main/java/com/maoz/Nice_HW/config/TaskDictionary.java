@@ -35,7 +35,7 @@ public class TaskDictionary {
      * Loads the dictionary from resources/tasksDictionary.json.
      * If the file is not found or parsing fails, an error is logged.
      */
-    public void loadDictionary() {
+    public boolean loadDictionary() {
         try (InputStream input = getClass().getResourceAsStream("/tasksDictionary.json")) {
             if (input == null) {
                 throw new IllegalStateException("tasksDictionary.json not found in resources");
@@ -45,14 +45,17 @@ public class TaskDictionary {
                     objectMapper.readValue(input, new TypeReference<Map<String, List<String>>>() {});
             this.dictionary = newDict;
             logger.info("Loaded {} tasks from dictionary", dictionary.size());
+            return true;
 
         } catch (IOException e) {
             logger.error("Failed to load dictionary", e);
+            return false;
         }
     }
 
     /**
      * Returns the current dictionary.
+     *
      * @return dictionary map
      */
     public Map<String, List<String>> getDictionary() {
@@ -60,11 +63,31 @@ public class TaskDictionary {
     }
 
     /**
-     * Reloads the dictionary from the JSON file at runtime.
-     * Can be called from a controller to refresh the list without restarting the application.
+     * Adds a synonym to a task in the dictionary (but does not duplicate).
+     * If the task does not exist, a new entry is created with this synonym.
+     *
+     * @param synonym the synonym to add
+     * @param task the task name (dictionary key)
      */
-    public void reloadDictionary() {
-        logger.info("Reloading dictionary from tasksDictionary.json...");
-        loadDictionary();
+    public void updateDictionary(String synonym, String task) {
+        if (synonym == null || synonym.isBlank() || task == null || task.isBlank()) {
+            logger.warn("Invalid mapping: synonym='{}', task='{}' – ignoring", synonym, task);
+            return;
+        }
+
+        List<String> synonyms = dictionary.get(task);
+        if (synonyms == null) {
+            synonyms = new ArrayList<>();
+            dictionary.put(task, synonyms);
+            logger.info("Created new task '{}' with first synonym '{}'", task, synonym);
+        }
+
+        if (!synonyms.contains(synonym)) {
+            synonyms.add(synonym);
+            logger.info("Added synonym '{}' to task '{}'", synonym, task);
+        } else {
+            logger.info("Synonym '{}' already exists for task '{}'", synonym, task);
+        }
     }
+
 }
