@@ -1,6 +1,7 @@
 package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
+import com.maoz.Nice_HW.config.TaskDictionary;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,71 +11,58 @@ import smile.math.MathEx;
 
 import java.util.*;
 
+/**
+ * Service implementation of SuggestTaskInterface that uses a classification approach.
+ *
+ * This service uses the shared TaskDictionary to train a Logistic Regression model for
+ * multi-class classification. The model predicts which task corresponds to a given
+ * user utterance.
+ */
 @Service
-public class ClassifierService implements SuggestTaskInterface {
+public class SuggestTaskClassifierService implements SuggestTaskInterface {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClassifierService.class);
-    private LogisticRegression model;
-    private Vocabulary vocab = new Vocabulary();
-    private Map<Integer, String> labelToTask = new HashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(SuggestTaskClassifierService.class);
+    private LogisticRegression model; // Logistic Regression model (multi-class softmax)
+    private Vocabulary vocab = new Vocabulary(); // Vocabulary used to convert text to vectors
+    private Map<Integer, String> labelToTask = new HashMap<>(); // Mapping of label indices to task names
+    private final TaskDictionary taskDictionary; // Central dictionary of task to synonyms, shared across services
 
+    public SuggestTaskClassifierService(TaskDictionary taskDictionary) {
+        this.taskDictionary = taskDictionary;
+    }
+
+    /**
+     * Train the Logistic Regression model. Steps:
+     * 1. Collect training data (utterance → task) from the dictionary.
+     * 2. Build vocabulary from all utterances (used to convert text → numeric vectors).
+     * 3. Convert sentences to vectors (X) and tasks to integer labels (y).
+     * 4. Fit Logistic Regression with softmax for multi-class classification.
+     */
     @PostConstruct
     public void train() {
-        // שלב 1: דאטה קטן (utterance → task)
-        String[][] texts = {
-                {"reset password", "ResetPasswordTask"},
-                {"reset my password", "ResetPasswordTask"},
-                {"reset my password please", "ResetPasswordTask"},
-                {"I want to reset my password", "ResetPasswordTask"},
-                {"I want to reset my password please", "ResetPasswordTask"},
-                {"forgot password", "ResetPasswordTask"},
-                {"forgot my password", "ResetPasswordTask"},
-                {"I forgot my password", "ResetPasswordTask"},
-                {"check order", "CheckOrderStatusTask"},
-                {"check my order", "CheckOrderStatusTask"},
-                {"check my order please", "CheckOrderStatusTask"},
-                {"I want to check my order", "CheckOrderStatusTask"},
-                {"I want to check my order please", "CheckOrderStatusTask"},
-                {"check my orders status", "CheckOrderStatusTask"},
-                {"I want to check my orders status", "CheckOrderStatusTask"},
-                {"I want to check my orders status please", "CheckOrderStatusTask"},
-                {"track order", "CheckOrderStatusTask"},
-                {"track my order", "CheckOrderStatusTask"},
-                {"track my order please", "CheckOrderStatusTask"},
-                {"I want to track my order", "CheckOrderStatusTask"},
-                {"I want to track my order please", "CheckOrderStatusTask"},
-                {"Where is my order?", "CheckOrderStatusTask"},
-                {"cancel order", "CancelOrderTask"},
-                {"cancel my order", "CancelOrderTask"},
-                {"cancel my order please", "CancelOrderTask"},
-                {"I want to cancel my order", "CancelOrderTask"},
-                {"I want to cancel my order please", "CancelOrderTask"},
-                {"can I cancel?", "CancelOrderTask"},
-                {"new order", "MakeOrderTask"},
-                {"I want to order", "MakeOrderTask"},
-                {"I want to place an order", "MakeOrderTask"},
-                {"I want to make an order", "MakeOrderTask"},
-                {"I want to order please", "MakeOrderTask"},
-                {"I want to place an order please", "MakeOrderTask"},
-                {"I want to make an order please", "MakeOrderTask"},
-                {"can I order?", "MakeOrderTask"}
-        };
+        // Step 1: Prepare training data
+        List<String[]> trainingData = new ArrayList<>();
+        taskDictionary.getDictionary().forEach((task, synonyms) -> {
+            for (String utterance : synonyms) {
+                trainingData.add(new String[]{utterance, task});
+            }
+        });
 
-        // שלב 2: בניית ווקבולרי
-        for (String[] sample : texts) {
+        // Step 2: Build vocabulary
+        for (String[] sample : trainingData) {
             vocab.addSentence(sample[0]);
         }
 
-        // שלב 3: המרת טקסטים לוקטורים
-        double[][] X = new double[texts.length][];
-        int[] y = new int[texts.length];
+        // Step 3: Convert sentences to vectors and tasks to labels
+        double[][] X = new double[trainingData.size()][];
+        int[] y = new int[trainingData.size()];
 
         Map<String, Integer> taskToLabel = new HashMap<>();
         int labelIndex = 0;
 
-        for (int i = 0; i < texts.length; i++) {
-            String sentence = texts[i][0];
-            String task = texts[i][1];
+        for (int i = 0; i < trainingData.size(); i++) {
+            String sentence = trainingData.get(i)[0];
+            String task = trainingData.get(i)[1];
 
             if (!taskToLabel.containsKey(task)) {
                 taskToLabel.put(task, labelIndex);
@@ -86,45 +74,58 @@ public class ClassifierService implements SuggestTaskInterface {
             X[i] = vocab.toVector(sentence);
         }
 
-        // שלב 4: אימון Logistic Regression עם softmax (multiclass)
-        MathEx.setSeed(123); // לשחזור
+        // Step 4: Fit Logistic Regression (softmax) for multi-class classification
+        MathEx.setSeed(123); // reproducibility
         model = LogisticRegression.fit(X, y);
+
+        logger.info("Classifier initially trained on {} utterances across {} tasks", X.length, labelToTask.size());
     }
 
+    /**
+     * Suggest a task for the given utterance using the trained classifier. Steps:
+     * 1. Convert utterance to vector using vocabulary.
+     * 2. Predict probabilities for all tasks using Logistic Regression.
+     * 3. Identify task with the highest probability.
+     * 4. If the probability exceeds the threshold, return task. otherwise, return NoTaskFound.
+     *
+     * @param utterance the user input text
+     * @return predicted task or NoTaskFound
+     */
+    @Override
     public String suggestTask(String utterance) {
         if (utterance == null || utterance.isBlank()) {
             logger.warn("Received empty utterance");
             return Constants.NO_TASK_FOUND;
         }
 
+        // Step 1: Convert to vector
         double[] vector = vocab.toVector(utterance);
-        double[] probs = new double[labelToTask.size()];
-        int label = model.predict(vector, probs);
-        logger.info("Task: '{}', Probability: {}%", labelToTask.get(label), String.format("%.2f", probs[label] * 100));
 
-        // חיפוש ההסתברות המקסימלית
-        double maxProb = -1;
+        // Step 2: Predict probabilities
+        double[] probs = new double[labelToTask.size()];
+        int predictedLabel = model.predict(vector, probs);
+
+        logger.info("Probabilities for utterance '{}':", utterance);
+        for (int i = 0; i < probs.length; i++) {
+            logger.info("  Task '{}' -> {:.2f}%", labelToTask.get(i), probs[i] * 100);
+        }
+
+        // Step 3: Identify max probability
+        double maxProb = Arrays.stream(probs).max().orElse(-1);
         int maxIdx = -1;
         for (int i = 0; i < probs.length; i++) {
-            if (probs[i] > maxProb) {
-                maxProb = probs[i];
+            if (probs[i] == maxProb) {
                 maxIdx = i;
+                break;
             }
         }
 
-        // לוגינג
-        logger.info("Predicting task for utterance: '{}'", utterance);
-        for (int i = 0; i < probs.length; i++) {
-            logger.info("Task: '{}', Probability: {}%", labelToTask.get(i), String.format("%.2f", probs[i] * 100));
-        }
-        logger.info("Max probability: {}% for task '{}'", String.format("%.2f", maxProb * 100), labelToTask.get(maxIdx));
+        // Step 4: Apply threshold
+        String predictedTask = maxProb < Constants.CLASSIFIER_THRESHOLD
+                ? Constants.NO_TASK_FOUND
+                : labelToTask.get(maxIdx);
 
-        // החלטה על NoTaskFound אם ההסתברות נמוכה מדי
-        String predictedTask = maxProb < Constants.CLASSIFIER_THRESHOLD ? Constants.NO_TASK_FOUND : labelToTask.get(maxIdx);
-        logger.info("Final predicted task: '{}'", predictedTask);
-
+        logger.info("Predicted task: '{}' (max probability {:.2f}%)", predictedTask, maxProb * 100);
         return predictedTask;
     }
-
-
 }
