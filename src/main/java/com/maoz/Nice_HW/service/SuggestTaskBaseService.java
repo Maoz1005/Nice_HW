@@ -1,14 +1,14 @@
 package com.maoz.Nice_HW.service;
 
+import com.maoz.Nice_HW.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SuggestTaskService {
+public class SuggestTaskService implements SuggestTaskInterface {
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskService.class);
     private final Map<String, String> taskDictionary = new HashMap<>();
 
@@ -43,7 +43,7 @@ public class SuggestTaskService {
     public String suggestTask(String utterance) {
         if (utterance == null) {
             logger.info("Received null utterance, returning NoTaskFound");
-            return "NoTaskFound";
+            return Constants.NO_TASK_FOUND;
         }
 
         // Change to lower case (case-sensitive)
@@ -59,6 +59,6 @@ public class SuggestTaskService {
         }
         // There is no match
         logger.info("No task found for utterance '{}'", utterance);
-        return "NoTaskFound";
+        return Constants.NO_TASK_FOUND;
     }
 }
