@@ -10,9 +10,10 @@ import java.util.Map;
 
 /**
  * Service implementation of SuggestTaskInterface that uses a dictionary-based approach.
- * The dictionary is loaded from an external JSON file and contains mappings between a task and its possible synonyms.
- * When a new utterance arrives, this service attempts to match it against
- * the synonyms in the dictionary and return the corresponding task.
+ *
+ * The dictionary is loaded from an external JSON file and contains mappings between a task
+ * and its possible synonyms. When a new utterance arrives, this service attempts to match it
+ * against the synonyms in the dictionary and return the corresponding task.
  */
 @Service
 public class SuggestTaskBaseService implements SuggestTaskInterface {
