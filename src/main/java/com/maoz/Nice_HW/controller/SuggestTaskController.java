@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
+import java.util.regex.PatternSyntaxException;
 
 /***
  * REST controller for the SuggestTask API.
@@ -32,22 +33,18 @@ import java.time.ZoneId;
 public class SuggestTaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskController.class);
-
     private final SuggestTaskBaseService suggestTaskService;
     private final SuggestTaskClassifierService classifierService;
     private final DevUsers devUsers;
-    private final TaskDictionary taskDictionary;
 
     public SuggestTaskController(
             SuggestTaskBaseService suggestTaskService,
             SuggestTaskClassifierService classifierService,
-            DevUsers devUsers,
-            TaskDictionary taskDictionary
+            DevUsers devUsers
     ) {
         this.suggestTaskService = suggestTaskService;
         this.classifierService = classifierService;
         this.devUsers = devUsers;
-        this.taskDictionary = taskDictionary;
     }
 
     /**
@@ -70,9 +67,10 @@ public class SuggestTaskController {
         String lowerUtterance = request.utterance().toLowerCase();
 
         // Special handling for dev commands (update dictionary)
-        if (devUsers.getUsers().contains(request.userId()) && lowerUtterance.contains("update dictionary")) {
-            taskDictionary.reloadDictionary();
-            classifierService.train();
+        if (devUsers.getUsers().contains(request.userId()) && lowerUtterance.contains("update dictionary")
+                && mode.equalsIgnoreCase("suggest")) {
+            String[] symAndTask = getSymAndTask(request.utterance());
+            suggestTaskService.updateDictionary(symAndTask);
             task = Constants.NO_TASK_FOUND;
         }
         // Normal suggestion
@@ -94,6 +92,36 @@ public class SuggestTaskController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);
     }
+
+    /**
+     * Parses an update-dictionary request string into a synonym-task pair.
+     *
+     * Expected format: "update dictionary - synonym,Task"
+     *
+     * @param s the raw request string to parse
+     * @return a 2-element array containing {synonym, task}, or {null, null} if invalid
+     */
+    private String[] getSymAndTask(String s) {
+        if (s == null || s.isBlank()) {
+            logger.info("Invalid update dictionary request: input is null/blank");
+            return new String[2]; // {null, null}
+        }
+
+        String[] split = s.split("-", 2);
+        if (split.length < 2) {
+            logger.info("Invalid update dictionary request: missing '-' separator");
+            return new String[2];
+        }
+
+        String[] symAndTask = split[1].split(",", 2);
+        if (symAndTask.length < 2 || symAndTask[0].isBlank() || symAndTask[1].isBlank()) {
+            logger.info("Invalid update dictionary request: missing/empty synonym or task");
+            return new String[2];
+        }
+
+        return new String[]{symAndTask[0].trim(), symAndTask[1].trim()};
+    }
+
 
     /**
      * Health check endpoint.
