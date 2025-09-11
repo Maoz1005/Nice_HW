@@ -2,10 +2,10 @@
 
 ## Overview
 It is a REST API that suggests tasks based on user input. It supports two modes:
-- **Dictionary-based (`suggest`)**: Matches phrases to tasks using a dictionary.
-- **Classifier-based (`classifier`)**: Uses a machine learning model (logistic regression) to predict tasks.
+- **Dictionary-based (mode = `suggest`)**: Matches phrases to tasks using a dictionary.
+- **Classifier-based (mode = `classifier`)**: Uses a machine learning model (logistic regression) to predict tasks.
 
-"Developers" users (specific IDs in resources/devUsers) can update the dictionary dynamically using special commands.
+*"Developers" users (specific IDs in resources/devUsers) can update the dictionary dynamically using special commands.
 
 ---
 
@@ -33,6 +33,7 @@ It is a REST API that suggests tasks based on user input. It supports two modes:
 ## Usage
 
 - POST /suggestTask
+
 Request:
 
 {
@@ -46,14 +47,16 @@ Request:
 
 *Developer command format: "update dictionary - <synonym>,<TaskName>" returns NoTaskFound.
 
-- Response:
+Response:
 
 {
   "task": "ResetPasswordTask",
   "timestamp": "2025-09-11T13:00:00+03:00"
 }
 
-- GET /suggestTask – Health check returns "SuggestTask API is running!".
+- GET /suggestTask
+
+Health check returns "SuggestTask API is running!".
 
 - Testing:
 
