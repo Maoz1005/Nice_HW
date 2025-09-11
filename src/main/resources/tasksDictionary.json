@@ -7,7 +7,9 @@
     "I forgot my password",
     "reset my password please",
     "I want to reset my password",
-    "I want to reset my password please"
+    "I want to reset my password please",
+    "I need help resetting my password"
+
   ],
   "CheckOrderStatusTask": [
     "check order",
@@ -26,6 +28,7 @@
     "I want to track my order please",
     "I want to check my orders status",
     "I want to check my orders status please"
+
   ],
   "CancelOrderTask": [
     "cancel order",
