@@ -16,9 +16,9 @@ import java.util.Map;
  * against the synonyms in the dictionary and return the corresponding task.
  */
 @Service
-public class SuggestTaskBaseService implements SuggestTaskInterface {
+public class SuggestTaskDictionaryService implements SuggestTaskInterface {
 
-    private static final Logger logger = LoggerFactory.getLogger(SuggestTaskBaseService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SuggestTaskDictionaryService.class);
     private final TaskDictionary taskDictionary; // Central dictionary of task to synonyms, shared across services
 
     /**
@@ -26,7 +26,7 @@ public class SuggestTaskBaseService implements SuggestTaskInterface {
      *
      * @param taskDictionary a taskDictionary object
      */
-    public SuggestTaskBaseService(TaskDictionary taskDictionary) {
+    public SuggestTaskDictionaryService(TaskDictionary taskDictionary) {
         this.taskDictionary = taskDictionary;
     }
 

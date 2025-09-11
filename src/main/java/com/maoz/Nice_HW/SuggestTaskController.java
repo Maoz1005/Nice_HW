@@ -1,9 +1,9 @@
-package com.maoz.Nice_HW.controller;
+package com.maoz.Nice_HW;
 
 import com.maoz.Nice_HW.config.*;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.dto.SuggestTaskResponseDTO;
-import com.maoz.Nice_HW.service.SuggestTaskBaseService;
+import com.maoz.Nice_HW.service.SuggestTaskDictionaryService;
 import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
 
 import com.maoz.Nice_HW.tasks.*;
@@ -34,13 +34,13 @@ import java.util.Map;
 public class SuggestTaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(SuggestTaskController.class);
-    private final SuggestTaskBaseService suggestTaskService;
+    private final SuggestTaskDictionaryService suggestTaskService;
     private final SuggestTaskClassifierService classifierService;
     private final DevUsers devUsers;
     private final Map<String, AbstractTask> taskNameToTaskClass= new HashMap<>();
 
     public SuggestTaskController(
-            SuggestTaskBaseService suggestTaskService,
+            SuggestTaskDictionaryService suggestTaskService,
             SuggestTaskClassifierService classifierService,
             DevUsers devUsers
     ) {

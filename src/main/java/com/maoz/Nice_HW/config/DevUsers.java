@@ -24,10 +24,6 @@ public class DevUsers {
     private static final Logger logger = LoggerFactory.getLogger(DevUsers.class);
     private List<String> users = new ArrayList<>(); // List of authorized user IDs
 
-    /**
-     * Constructor automatically loads the list of developer users
-     * when the Spring context initializes this Component.
-     */
     public DevUsers() {
         loadUsers();
     }
@@ -53,12 +49,6 @@ public class DevUsers {
         }
     }
 
-    /**
-     * Returns the list of developer user IDs.
-     * This can be used by controllers or services to check authorization.
-     *
-     * @return List of authorized developer users
-     */
     public List<String> getUsers() {
         return users;
     }
