@@ -1,8 +1,8 @@
-package com.maoz.Nice_HW.controller;
+package com.maoz.Nice_HW.unit;
 
 import com.maoz.Nice_HW.SuggestTaskController;
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.forSuggestTaskDictionary.DevUsers;
+import com.maoz.Nice_HW.suggestTaskUtils.DevUsers;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
 import com.maoz.Nice_HW.service.SuggestTaskDictionaryService;

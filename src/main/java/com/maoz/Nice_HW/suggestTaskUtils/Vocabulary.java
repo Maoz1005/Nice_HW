@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.forSuggestTaskClassifier;
+package com.maoz.Nice_HW.suggestTaskUtils;
 
 import java.util.HashMap;
 import java.util.Map;

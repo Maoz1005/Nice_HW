@@ -1,26 +1,26 @@
-package com.maoz.Nice_HW.tasks;
+package com.maoz.Nice_HW.unit;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
-import com.maoz.Nice_HW.tasks.CancelOrderTask;
+import com.maoz.Nice_HW.tasks.CheckOrderStatusTask;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CancelOrderTaskTest {
+class CheckOrderStatusTaskTest {
 
     @Test
     void getTaskName_returnsCorrectName() {
-        CancelOrderTask task = new CancelOrderTask();
-        assertEquals("CancelOrderTask", task.getTaskName());
+        CheckOrderStatusTask task = new CheckOrderStatusTask();
+        assertEquals("CheckOrderStatusTask", task.getTaskName());
     }
 
     @Test
     void activateTask_runsWithoutException() {
-        CancelOrderTask task = new CancelOrderTask();
+        CheckOrderStatusTask task = new CheckOrderStatusTask();
 
         SuggestTaskRequestDTO dto = new SuggestTaskRequestDTO(
-                "cancel my order",
+                "check my order",
                 "user123",
                 "session456",
                 "2025-09-09T14:10:32+03:00"

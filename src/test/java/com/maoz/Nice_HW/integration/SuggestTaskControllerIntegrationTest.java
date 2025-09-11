@@ -1,8 +1,8 @@
-package com.maoz.Nice_HW.controller;
+package com.maoz.Nice_HW.integration;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.forSuggestTaskDictionary.DevUsers;
-import com.maoz.Nice_HW.sharedSuggestTask.TaskDictionary;
+import com.maoz.Nice_HW.suggestTaskUtils.DevUsers;
+import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SuggestTaskControllerIT {
+class SuggestTaskControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

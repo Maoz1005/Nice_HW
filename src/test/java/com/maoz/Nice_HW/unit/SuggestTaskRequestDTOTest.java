@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.validation;
+package com.maoz.Nice_HW.unit;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import jakarta.validation.Validation;

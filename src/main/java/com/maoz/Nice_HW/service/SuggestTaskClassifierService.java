@@ -1,9 +1,8 @@
 package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.sharedSuggestTask.SuggestTaskInterface;
-import com.maoz.Nice_HW.sharedSuggestTask.TaskDictionary;
-import com.maoz.Nice_HW.forSuggestTaskClassifier.Vocabulary;
+import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
+import com.maoz.Nice_HW.suggestTaskUtils.Vocabulary;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

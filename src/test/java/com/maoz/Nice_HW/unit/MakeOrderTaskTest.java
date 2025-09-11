@@ -1,26 +1,26 @@
-package com.maoz.Nice_HW.tasks;
+package com.maoz.Nice_HW.unit;
 
-import com.maoz.Nice_HW.tasks.ResetPasswordTask;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
+import com.maoz.Nice_HW.tasks.MakeOrderTask;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ResetPasswordTaskTest {
+class MakeOrderTaskTest {
 
     @Test
     void getTaskName_returnsCorrectName() {
-        ResetPasswordTask task = new ResetPasswordTask();
-        assertEquals("ResetPasswordTask", task.getTaskName());
+        MakeOrderTask task = new MakeOrderTask();
+        assertEquals("MakeOrderTask", task.getTaskName());
     }
 
     @Test
     void activateTask_runsWithoutException() {
-        ResetPasswordTask task = new ResetPasswordTask();
+        MakeOrderTask task = new MakeOrderTask();
 
         SuggestTaskRequestDTO dto = new SuggestTaskRequestDTO(
-                "reset my password",
+                "i want to place an order",
                 "user123",
                 "session456",
                 "2025-09-09T14:10:32+03:00"
