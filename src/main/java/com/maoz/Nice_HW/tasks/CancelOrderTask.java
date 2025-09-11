@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.tasks;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import org.slf4j.Logger;
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents a concrete task for cancelling an order.
  */
-public class CancelOrderTask extends AbstractTask{
+public class CancelOrderTask extends AbstractTask {
     private static final Logger logger = LoggerFactory.getLogger(CancelOrderTask.class);
 
     /**

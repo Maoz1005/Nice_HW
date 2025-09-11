@@ -1,19 +1,20 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.tasks;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents a concrete task for Checking a status of an order.
+ * Represents a concrete task for making a new order.
  */
-public class CheckOrderStatusTask extends AbstractTask{
-    private static final Logger logger = LoggerFactory.getLogger(CheckOrderStatusTask.class);
+public class MakeOrderTask extends AbstractTask {
+    private static final Logger logger = LoggerFactory.getLogger(MakeOrderTask.class);
+
     /**
      * Constructor initializes the task with its name.
      */
-    public CheckOrderStatusTask(){
-        this.taskName = "CheckOrderStatusTask";
+    public MakeOrderTask(){
+        this.taskName = "MakeOrderTask";
     }
 
     /**
@@ -22,6 +23,6 @@ public class CheckOrderStatusTask extends AbstractTask{
      */
     @Override
     public void activateTask(SuggestTaskRequestDTO request) {
-        logger.info("CheckOrderStatusTask activated");
+        logger.info("MakeOrderTask activated");
     }
 }

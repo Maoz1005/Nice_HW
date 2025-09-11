@@ -1,20 +1,21 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.tasks;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents a concrete task for making a new order.
+ * Represents a concrete task for resetting a password.
  */
-public class MakeOrderTask extends AbstractTask{
-    private static final Logger logger = LoggerFactory.getLogger(MakeOrderTask.class);
+public class ResetPasswordTask extends AbstractTask {
+
+    private static final Logger logger = LoggerFactory.getLogger(ResetPasswordTask.class);
 
     /**
      * Constructor initializes the task with its name.
      */
-    public MakeOrderTask(){
-        this.taskName = "MakeOrderTask";
+    public ResetPasswordTask() {
+        this.taskName = "ResetPasswordTask";
     }
 
     /**
@@ -23,6 +24,6 @@ public class MakeOrderTask extends AbstractTask{
      */
     @Override
     public void activateTask(SuggestTaskRequestDTO request) {
-        logger.info("MakeOrderTask activated");
+        logger.info("ResetPasswordTask activated");
     }
 }

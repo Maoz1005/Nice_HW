@@ -6,6 +6,7 @@ import com.maoz.Nice_HW.dto.SuggestTaskResponseDTO;
 import com.maoz.Nice_HW.service.SuggestTaskBaseService;
 import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
 
+import com.maoz.Nice_HW.tasks.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
