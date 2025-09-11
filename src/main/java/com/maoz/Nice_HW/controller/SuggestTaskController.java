@@ -56,8 +56,8 @@ public class SuggestTaskController {
      * Suggests a task based on the user's utterance.
      * Supports two modes: "suggest" (dictionary) or "classifier".
      *
-     * @param request - The SuggestTaskRequestDTO containing userId, sessionId, utterance, timestamp
-     * @param mode - Optional parameter (default is "suggest")
+     * @param request The SuggestTaskRequestDTO containing userId, sessionId, utterance, timestamp
+     * @param mode Optional parameter (default is "suggest")
      * @return SuggestTaskResponseDTO with the task and timestamp
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

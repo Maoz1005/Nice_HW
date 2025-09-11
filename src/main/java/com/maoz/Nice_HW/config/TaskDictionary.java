@@ -65,8 +65,8 @@ public class TaskDictionary {
      * Adds a synonym to an existing task in the dictionary (but does not duplicate).
      * If the task does not exist, the update will be cancelled.
      *
-     * @param synonym - the synonym to add
-     * @param task - the task name (dictionary key)
+     * @param synonym the synonym to add
+     * @param task the task name (dictionary key)
      */
     public void updateDictionary(String synonym, String task) {
         if (synonym == null || synonym.isBlank() || task == null || task.isBlank()) {

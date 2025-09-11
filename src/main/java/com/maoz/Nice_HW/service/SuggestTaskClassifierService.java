@@ -89,7 +89,7 @@ public class SuggestTaskClassifierService implements SuggestTaskInterface {
      * 3. Identify task with the highest probability.
      * 4. If the probability exceeds the threshold, return task. otherwise, return NoTaskFound.
      *
-     * @param utterance - the user input text
+     * @param utterance the user input text
      * @return predicted task or NoTaskFound
      */
     @Override

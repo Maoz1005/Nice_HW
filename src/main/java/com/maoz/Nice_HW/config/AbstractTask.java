@@ -8,4 +8,5 @@ import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 public abstract class AbstractTask {
     String taskName;
     public abstract void activateTask(SuggestTaskRequestDTO request);
+    public String getTaskName() { return this.taskName; }
 }

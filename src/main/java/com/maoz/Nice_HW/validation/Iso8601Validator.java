@@ -14,8 +14,8 @@ public class Iso8601Validator implements ConstraintValidator<Iso8601, String> {
     /**
      * Validates the given value (according to Iso8601).
      *
-     * @param value - the String value to validate
-     * @param context - the context in which the constraint is evaluated
+     * @param value the String value to validate
+     * @param context the context in which the constraint is evaluated
      * @return true if the value is a valid ISO-8601 timestamp, false otherwise
      */
     @Override

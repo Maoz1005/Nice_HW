@@ -17,7 +17,7 @@ public class Vocabulary {
      * Updates the vocabulary with all tokens from the given sentence.
      * New words are added and assigned incremental indices.
      *
-     * @param sentence - the sentence to process (tokens are split on whitespace)
+     * @param sentence the sentence to process (tokens are split on whitespace)
      */
     public void addSentence(String sentence) {
         for (String token : sentence.toLowerCase().split("\\s+")) {
@@ -30,7 +30,7 @@ public class Vocabulary {
      * The vector length equals the vocabulary size. Each position counts the occurrences
      * of the corresponding token in the sentence. Tokens not in the vocabulary are ignored.
      *
-     * @param sentence - the sentence to vectorize
+     * @param sentence the sentence to vectorize
      * @return a feature vector representing the Bag-of-Words encoding of the sentence
      */
     public double[] toVector(String sentence) {
