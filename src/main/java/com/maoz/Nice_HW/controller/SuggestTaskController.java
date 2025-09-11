@@ -1,7 +1,6 @@
 package com.maoz.Nice_HW.controller;
 
-import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.config.DevUsers;
+import com.maoz.Nice_HW.config.*;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.dto.SuggestTaskResponseDTO;
 import com.maoz.Nice_HW.service.SuggestTaskBaseService;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  * REST controller for the SuggestTask API.
@@ -35,6 +36,7 @@ public class SuggestTaskController {
     private final SuggestTaskBaseService suggestTaskService;
     private final SuggestTaskClassifierService classifierService;
     private final DevUsers devUsers;
+    private final Map<String, AbstractTask> taskNameToTaskClass= new HashMap<>();
 
     public SuggestTaskController(
             SuggestTaskBaseService suggestTaskService,
@@ -44,6 +46,10 @@ public class SuggestTaskController {
         this.suggestTaskService = suggestTaskService;
         this.classifierService = classifierService;
         this.devUsers = devUsers;
+        this.taskNameToTaskClass.put("ResetPasswordTask", new ResetPasswordTask());
+        this.taskNameToTaskClass.put("CheckOrderStatusTask", new CheckOrderStatusTask());
+        this.taskNameToTaskClass.put("MakeOrderTask", new MakeOrderTask());
+        this.taskNameToTaskClass.put("CancelOrderTask", new CancelOrderTask());
     }
 
     /**
@@ -79,6 +85,11 @@ public class SuggestTaskController {
             } else {
                 task = suggestTaskService.suggestTask(request.utterance());
             }
+        }
+
+        if (!task.equals(Constants.NO_TASK_FOUND)){
+            AbstractTask taskObject = taskNameToTaskClass.get(task);
+            taskObject.activateTask();
         }
 
         String timestamp = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"))
