@@ -47,6 +47,10 @@ public class SuggestTaskController {
         this.suggestTaskService = suggestTaskService;
         this.classifierService = classifierService;
         this.devUsers = devUsers;
+        initTaskNameToTaskClass();
+    }
+
+    private void initTaskNameToTaskClass(){
         this.taskNameToTaskClass.put("ResetPasswordTask", new ResetPasswordTask());
         this.taskNameToTaskClass.put("CheckOrderStatusTask", new CheckOrderStatusTask());
         this.taskNameToTaskClass.put("MakeOrderTask", new MakeOrderTask());
@@ -69,34 +73,36 @@ public class SuggestTaskController {
         logger.info("Received request: userId={}, sessionId={}, utterance={}",
                 request.userId(), request.sessionId(), request.utterance());
 
-        String task;
+        String taskName;
         String lowerUtterance = request.utterance().toLowerCase();
 
+        /** Other functions */
         // Special handling for dev commands (update dictionary)
-        if (devUsers.getUsers().contains(request.userId()) && lowerUtterance.contains("update dictionary")
+        if (devUsers.getUsers().contains(request.userId())
+                && lowerUtterance.contains("update dictionary")
                 && mode.equalsIgnoreCase("suggest")) {
             String[] symAndTask = getSymAndTask(request.utterance());
             suggestTaskService.updateDictionary(symAndTask);
-            task = Constants.NO_TASK_FOUND;
+            taskName = Constants.NO_TASK_FOUND;
         }
         // Normal suggestion
         else {
             if (mode.equalsIgnoreCase("classifier")) {
-                task = classifierService.suggestTask(request.utterance());
+                taskName = classifierService.suggestTask(request.utterance());
             } else {
-                task = suggestTaskService.suggestTask(request.utterance());
+                taskName = suggestTaskService.suggestTask(request.utterance());
             }
         }
 
-        if (!task.equals(Constants.NO_TASK_FOUND)){
-            AbstractTask taskObject = taskNameToTaskClass.get(task);
-            taskObject.activateTask(request);
+        if (!taskName.equals(Constants.NO_TASK_FOUND)){
+            AbstractTask task = taskNameToTaskClass.get(taskName);
+            task.activateTask(request);
         }
 
         String timestamp = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"))
                 .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-        SuggestTaskResponseDTO response = new SuggestTaskResponseDTO(task, timestamp);
+        SuggestTaskResponseDTO response = new SuggestTaskResponseDTO(taskName, timestamp);
         logger.info("Responding with task={}, timestamp={}", response.task(), response.timestamp());
 
         return ResponseEntity.ok()
@@ -144,13 +150,3 @@ public class SuggestTaskController {
         return "SuggestTask API is running!";
     }
 }
-
-
-
-
-/***
- * dict<String, TaskInterface> = {"remove": removeTask, "update":updateTask};
- *         taskClass = dict[task];
- *         response = taskClass.getResponse()
- */
-
