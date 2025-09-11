@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.tasks;
 
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.tasks.CheckOrderStatusTask;
