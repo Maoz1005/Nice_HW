@@ -62,8 +62,8 @@ public class TaskDictionary {
     }
 
     /**
-     * Adds a synonym to a task in the dictionary (but does not duplicate).
-     * If the task does not exist, a new entry is created with this synonym.
+     * Adds a synonym to an existing task in the dictionary (but does not duplicate).
+     * If the task does not exist, the update will be cancelled.
      *
      * @param synonym - the synonym to add
      * @param task - the task name (dictionary key)
@@ -71,6 +71,12 @@ public class TaskDictionary {
     public void updateDictionary(String synonym, String task) {
         if (synonym == null || synonym.isBlank() || task == null || task.isBlank()) {
             logger.warn("Invalid mapping: synonym='{}', task='{}' – ignoring", synonym, task);
+            return;
+        }
+
+        // If the task does not exist, don't update
+        if (!dictionary.containsKey(task)) {
+            logger.warn("Task '{}' does not exist in dictionary. Synonym '{}' not added.", task, synonym);
             return;
         }
 
