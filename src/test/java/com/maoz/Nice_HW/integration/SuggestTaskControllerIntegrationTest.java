@@ -1,8 +1,8 @@
 package com.maoz.Nice_HW.integration;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.suggestTaskUtils.DevUsers;
-import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
+import com.maoz.Nice_HW.utils.DevUsers;
+import com.maoz.Nice_HW.utils.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

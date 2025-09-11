@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.suggestTaskUtils;
+package com.maoz.Nice_HW.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

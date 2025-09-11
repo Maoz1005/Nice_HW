@@ -2,7 +2,7 @@ package com.maoz.Nice_HW.unit;
 
 import com.maoz.Nice_HW.config.Constants;
 import com.maoz.Nice_HW.service.SuggestTaskDictionaryService;
-import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
+import com.maoz.Nice_HW.utils.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

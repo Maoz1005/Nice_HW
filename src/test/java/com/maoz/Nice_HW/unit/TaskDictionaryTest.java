@@ -1,6 +1,6 @@
 package com.maoz.Nice_HW.unit;
 
-import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
+import com.maoz.Nice_HW.utils.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

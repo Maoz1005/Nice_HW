@@ -1,7 +1,7 @@
 package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.suggestTaskUtils.TaskDictionary;
+import com.maoz.Nice_HW.utils.TaskDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

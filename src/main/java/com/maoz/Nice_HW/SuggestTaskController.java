@@ -1,6 +1,6 @@
 package com.maoz.Nice_HW;
 
-import com.maoz.Nice_HW.suggestTaskUtils.DevUsers;
+import com.maoz.Nice_HW.utils.DevUsers;
 import com.maoz.Nice_HW.config.*;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.dto.SuggestTaskResponseDTO;
