@@ -16,7 +16,6 @@ class TaskDictionaryTest {
     @BeforeEach
     void setUp() {
         dictionary = new TaskDictionary();
-        // ננקה כדי שלא נסתמך על JSON אמיתי
         dictionary.loadDictionary();
         dictionary.getDictionary().clear();
         dictionary.getDictionary().put("ResetPasswordTask", new java.util.ArrayList<>(List.of("reset", "password")));
@@ -46,7 +45,7 @@ class TaskDictionaryTest {
         dictionary.updateDictionary("reset", "");
 
         List<String> synonyms = dictionary.getDictionary().get("ResetPasswordTask");
-        assertEquals(2, synonyms.size()); // מה שהתחיל – "reset", "password"
+        assertEquals(2, synonyms.size());
     }
 
     @Test

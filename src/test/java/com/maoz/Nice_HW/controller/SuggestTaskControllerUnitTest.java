@@ -35,7 +35,6 @@ class SuggestTaskControllerUnitTest {
     }
 
     // ------------------ getTaskName tests ------------------
-
     @Test
     void getTaskName_dictionaryMode_returnsCorrectTask() throws Exception {
         SuggestTaskRequestDTO req = new SuggestTaskRequestDTO("check my order","userX", "sess1",  "2025-09-11T10:00:00Z");
@@ -86,6 +85,7 @@ class SuggestTaskControllerUnitTest {
         verifyNoInteractions(classifierService);
     }
 
+    // ------------------ getSymAndTask tests ------------------
     @Test
     void getSymAndTask_validInput_parsesCorrectly() throws Exception {
         Method method = controller.getClass().getDeclaredMethod("getSymAndTask", String.class);

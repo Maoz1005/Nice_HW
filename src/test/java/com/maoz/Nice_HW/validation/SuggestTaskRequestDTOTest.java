@@ -70,7 +70,7 @@ class SuggestTaskRequestDTOTest {
                 "check my order",
                 "12345",
                 "abcde-67890",
-                "2025-09-09 14:10:32" // לא ISO-8601
+                "2025-09-09 14:10:32"
         );
 
         Set<ConstraintViolation<SuggestTaskRequestDTO>> violations = validator.validate(dto);

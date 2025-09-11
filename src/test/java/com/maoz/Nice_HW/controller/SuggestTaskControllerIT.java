@@ -29,7 +29,7 @@ class SuggestTaskControllerIT {
 
     @BeforeEach
     void setUp() {
-        devUsers.getUsers().add("22222"); // כדי לאפשר בדיקות dev
+        devUsers.getUsers().add("22222");
     }
 
     @Test

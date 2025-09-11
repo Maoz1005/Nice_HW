@@ -20,7 +20,6 @@ class SuggestTaskDictionaryServiceTest {
         taskDictionary = new TaskDictionary() {
             @Override
             public void loadDictionary() {
-                // ניגש למפה דרך getter ומכניס ערכים mutable
                 getDictionary().put("ResetPasswordTask", new ArrayList<>(List.of("reset password")));
                 getDictionary().put("CheckOrderStatusTask", new ArrayList<>(List.of("check order")));
                 getDictionary().put("MakeOrderTask", new ArrayList<>(List.of("make order")));
@@ -71,13 +70,9 @@ class SuggestTaskDictionaryServiceTest {
 
     @Test
     void updateDictionary_ignoresInvalidEntries() {
-        // synonym null
         dictionaryService.updateDictionary(new String[]{null, "ResetPasswordTask"});
-        // synonym empty
         dictionaryService.updateDictionary(new String[]{"", "ResetPasswordTask"});
-        // task null
         dictionaryService.updateDictionary(new String[]{"reset something", null});
-        // task empty
         dictionaryService.updateDictionary(new String[]{"reset something", ""});
 
         List<String> synonyms = taskDictionary.getDictionary().get("ResetPasswordTask");
