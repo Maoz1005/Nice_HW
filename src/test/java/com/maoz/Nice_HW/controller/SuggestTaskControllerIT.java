@@ -1,11 +1,8 @@
 package com.maoz.Nice_HW.controller;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.config.DevUsers;
-import com.maoz.Nice_HW.config.TaskDictionary;
-import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
-import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
-import com.maoz.Nice_HW.service.SuggestTaskDictionaryService;
+import com.maoz.Nice_HW.forSuggestTaskDictionary.DevUsers;
+import com.maoz.Nice_HW.sharedSuggestTask.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

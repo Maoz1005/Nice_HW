@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.service;
+package com.maoz.Nice_HW.sharedSuggestTask;
 
 /**
  * Interface for suggest task services.

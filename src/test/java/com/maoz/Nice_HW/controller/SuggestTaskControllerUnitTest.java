@@ -2,7 +2,7 @@ package com.maoz.Nice_HW.controller;
 
 import com.maoz.Nice_HW.SuggestTaskController;
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.config.DevUsers;
+import com.maoz.Nice_HW.forSuggestTaskDictionary.DevUsers;
 import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import com.maoz.Nice_HW.service.SuggestTaskClassifierService;
 import com.maoz.Nice_HW.service.SuggestTaskDictionaryService;

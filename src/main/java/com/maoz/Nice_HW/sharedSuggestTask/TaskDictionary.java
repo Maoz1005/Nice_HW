@@ -1,4 +1,4 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.sharedSuggestTask;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,18 +45,17 @@ public class TaskDictionary {
 
             Map<String, List<String>> newDict =
                     objectMapper.readValue(input, new TypeReference<Map<String, List<String>>>() {});
-            this.dictionary = newDict;
+            Map<String, List<String>> mutableDict = new HashMap<>();
+            newDict.forEach((task, synonyms) -> mutableDict.put(task, new ArrayList<>(synonyms)));
+
+            this.dictionary = mutableDict;
             logger.info("Loaded {} tasks from dictionary", dictionary.size());
         } catch (IOException e) {
             logger.error("Failed to load dictionary", e);
         }
     }
 
-    /**
-     * Returns the current dictionary.
-     *
-     * @return dictionary map
-     */
+
     public Map<String, List<String>> getDictionary() {
         return dictionary;
     }
@@ -81,12 +80,6 @@ public class TaskDictionary {
         }
 
         List<String> synonyms = dictionary.get(task);
-        if (synonyms == null) {
-            synonyms = new ArrayList<>();
-            dictionary.put(task, synonyms);
-            logger.info("Created new task '{}' with first synonym '{}'", task, synonym);
-        }
-
         if (!synonyms.contains(synonym)) {
             synonyms.add(synonym);
             logger.info("Added synonym '{}' to task '{}'", synonym, task);

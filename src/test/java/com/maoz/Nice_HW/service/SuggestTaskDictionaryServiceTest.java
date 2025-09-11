@@ -1,14 +1,12 @@
 package com.maoz.Nice_HW.service;
 
 import com.maoz.Nice_HW.config.Constants;
-import com.maoz.Nice_HW.config.TaskDictionary;
+import com.maoz.Nice_HW.sharedSuggestTask.TaskDictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

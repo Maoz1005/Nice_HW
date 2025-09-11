@@ -1,5 +1,6 @@
-package com.maoz.Nice_HW.config;
+package com.maoz.Nice_HW.forSuggestTaskClassifier;
 
+import com.maoz.Nice_HW.forSuggestTaskClassifier.Vocabulary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
