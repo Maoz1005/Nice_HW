@@ -89,7 +89,7 @@ public class SuggestTaskController {
 
         if (!task.equals(Constants.NO_TASK_FOUND)){
             AbstractTask taskObject = taskNameToTaskClass.get(task);
-            taskObject.activateTask();
+            taskObject.activateTask(request);
         }
 
         String timestamp = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"))
