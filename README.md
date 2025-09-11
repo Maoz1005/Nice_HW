@@ -26,7 +26,7 @@ It is a REST API that suggests tasks based on user input. It supports two modes:
 - git clone <repo_url>
 - cd Nice_HW
 - ./mvnw clean install
-- ./mvnw spring-boot:run
+- ./mvnw spring-boot:run (make sure that http://localhost:8080/ is available)
 
 ---
 
