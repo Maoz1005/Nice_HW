@@ -11,7 +11,7 @@ import static com.maoz.Nice_HW.config.Constants.MAX_UTTERANCE_LENGTH;
 public record SuggestTaskRequestDTO(
 
         @NotBlank(message = "{utterance.notBlank}")
-        @Size(max = Constants.MAX_UTTERANCE_LENGTH, message = "{utterance.size}")
+        @Size(max = MAX_UTTERANCE_LENGTH, message = "{utterance.size}")
         String utterance, // The user input text (utterance) for which a task should be suggested.
 
         @NotBlank(message = "{userId.notBlank}")
