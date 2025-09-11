@@ -10,7 +10,7 @@ import java.util.Map;
  * and provides a method to convert sentences into fixed-size numerical vectors.
  */
 public class Vocabulary {
-    /** Maps each unique token to its index in the feature vector */
+    // Maps each unique token to its index in the feature vector
     private final Map<String, Integer> wordToIndex = new HashMap<>();
 
     /**

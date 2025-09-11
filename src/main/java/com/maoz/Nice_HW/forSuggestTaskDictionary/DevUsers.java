@@ -14,10 +14,8 @@ import java.util.Map;
 
 /**
  * DevUsers is a shared Component responsible for loading and providing a list of
- * "developer users" (users allowed to update the task dictionary).
- *
- * The users are loaded from an external JSON file (resources/devUsers.json),
- * so that it can be easily updated without changing the code.
+ * "developer users" (users  who allowed to update the task dictionary).
+ * The users are loaded from an external JSON file (resources/devUsers.json).
  */
 @Component
 public class DevUsers {

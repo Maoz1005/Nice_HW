@@ -51,12 +51,14 @@ public class SuggestTaskController {
         initTaskNameToTaskClass();
     }
 
+
     private void initTaskNameToTaskClass(){
         this.taskNameToTaskClass.put("ResetPasswordTask", new ResetPasswordTask());
         this.taskNameToTaskClass.put("CheckOrderStatusTask", new CheckOrderStatusTask());
         this.taskNameToTaskClass.put("MakeOrderTask", new MakeOrderTask());
         this.taskNameToTaskClass.put("CancelOrderTask", new CancelOrderTask());
     }
+
 
     /**
      * Suggests a task based on the user's utterance.
@@ -90,6 +92,7 @@ public class SuggestTaskController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);
     }
+
 
     /**
      * Determines the task name for a given request and mode.
@@ -125,7 +128,6 @@ public class SuggestTaskController {
 
     /**
      * Parses an update-dictionary request string into a synonym-task pair.
-     *
      * Expected format: "update dictionary - synonym,Task"
      *
      * @param s the raw request string to parse

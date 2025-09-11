@@ -10,11 +10,8 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * TaskDictionary is a shared component that loads and provides access
- * to the mapping of tasks to list of synonyms.
- *
- * The dictionary is loaded from an external JSON file (resources/tasksDictionary.json),
- * so that it can be easily updated without changing the code.
+ * TaskDictionary is a shared component that loads and provides access to the mapping of tasks to list of synonyms.
+ * The dictionary is loaded from an external JSON file (resources/tasksDictionary.json).
  */
 @Component
 public class TaskDictionary {
@@ -34,8 +31,6 @@ public class TaskDictionary {
     /**
      * Loads the dictionary from resources/tasksDictionary.json.
      * If the file is not found or parsing fails, an error is logged.
-     *
-     * @return true if succeeded, false otherwise
      */
     public void loadDictionary() {
         try (InputStream input = getClass().getResourceAsStream("/tasksDictionary.json")) {
@@ -54,7 +49,6 @@ public class TaskDictionary {
             logger.error("Failed to load dictionary", e);
         }
     }
-
 
     public Map<String, List<String>> getDictionary() {
         return dictionary;
