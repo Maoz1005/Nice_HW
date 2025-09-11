@@ -73,27 +73,7 @@ public class SuggestTaskController {
         logger.info("Received request: userId={}, sessionId={}, utterance={}",
                 request.userId(), request.sessionId(), request.utterance());
 
-        String taskName;
-        String lowerUtterance = request.utterance().toLowerCase();
-
-        /** Other functions */
-        // Special handling for dev commands (update dictionary)
-        if (devUsers.getUsers().contains(request.userId())
-                && lowerUtterance.contains("update dictionary")
-                && mode.equalsIgnoreCase("suggest")) {
-            String[] symAndTask = getSymAndTask(request.utterance());
-            suggestTaskService.updateDictionary(symAndTask);
-            taskName = Constants.NO_TASK_FOUND;
-        }
-        // Normal suggestion
-        else {
-            if (mode.equalsIgnoreCase("classifier")) {
-                taskName = classifierService.suggestTask(request.utterance());
-            } else {
-                taskName = suggestTaskService.suggestTask(request.utterance());
-            }
-        }
-
+        String taskName = getTaskName(request, mode);
         if (!taskName.equals(Constants.NO_TASK_FOUND)){
             AbstractTask task = taskNameToTaskClass.get(taskName);
             task.activateTask(request);
@@ -109,6 +89,38 @@ public class SuggestTaskController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);
     }
+
+    /**
+     * Determines the task name for a given request and mode.
+     * For dev users and "update dictionary" request in suggest mode, updates the dictionary and returns NO_TASK_FOUND.
+     *
+     * @param request the incoming request
+     * @param mode the suggestion mode ("suggest" or "classifier")
+     * @return the determined task name, or NO_TASK_FOUND if no task matches
+     */
+    private String getTaskName(SuggestTaskRequestDTO request, String mode) {
+        String ret;
+        String lowerUtterance = request.utterance().toLowerCase();
+
+        // Special handling for dev commands (update dictionary)
+        if (devUsers.getUsers().contains(request.userId())
+                && lowerUtterance.contains("update dictionary")
+                && mode.equalsIgnoreCase("suggest")) {
+            String[] symAndTask = getSymAndTask(request.utterance());
+            suggestTaskService.updateDictionary(symAndTask);
+            ret = Constants.NO_TASK_FOUND;
+        }
+        // Normal suggestion
+        else {
+            if (mode.equalsIgnoreCase("classifier")) {
+                ret = classifierService.suggestTask(request.utterance());
+            } else {
+                ret = suggestTaskService.suggestTask(request.utterance());
+            }
+        }
+        return ret;
+    }
+
 
     /**
      * Parses an update-dictionary request string into a synonym-task pair.
