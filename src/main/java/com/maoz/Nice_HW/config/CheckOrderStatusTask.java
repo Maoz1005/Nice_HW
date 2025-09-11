@@ -1,5 +1,6 @@
 package com.maoz.Nice_HW.config;
 
+import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class CheckOrderStatusTask extends AbstractTask{
      * In this example, it simply logs that the task was activated.
      */
     @Override
-    public void activateTask() {
+    public void activateTask(SuggestTaskRequestDTO request) {
         logger.info("CheckOrderStatusTask activated");
     }
 }

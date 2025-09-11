@@ -1,9 +1,11 @@
 package com.maoz.Nice_HW.config;
 
+import com.maoz.Nice_HW.dto.SuggestTaskRequestDTO;
+
 /**
  * Abstract class for tasks.
  */
 public abstract class AbstractTask {
     String taskName;
-    public abstract void activateTask();
+    public abstract void activateTask(SuggestTaskRequestDTO request);
 }
